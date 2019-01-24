@@ -1,32 +1,43 @@
-.App {
+@import url("https://fonts.googleapis.com/css?family=Roboto:600,400,500,300");
+
+body {
+  font-family: Roboto;
+}
+
+h1 {
+  font-weight: 300;
+}
+
+button {
+  height: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
   text-align: center;
+  background: #2485c5;
+  outline: none;
+  border: none;
+  color: #fff;
+  border-radius: 2px;
+  transition: 300ms ease;
+  font-size: 0.875rem;
+  font-family: Roboto;
+  letter-spacing: 0.08929em;
+  font-weight: 500;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+button:hover {
+  background: #1d73ad;
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+button:focus {
+  background: #2485c5;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+a {
+  color: #2485c5;
+  text-decoration: underline;
 }
