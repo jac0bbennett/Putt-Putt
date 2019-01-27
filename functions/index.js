@@ -1,11 +1,12 @@
 const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 
 const cors = require("cors")({
   origin: true
 });
 
-const admin = require("firebase-admin");
 admin.initializeApp();
+db = admin.database();
 
 makeSlug = () => {
   let text = "";
@@ -23,20 +24,25 @@ exports.newgroup = functions.https.onRequest((req, res) => {
     if (req.method === "POST") {
       const slug = makeSlug();
       const t = Date.now();
-      admin
-        .database()
-        .ref("/groups")
-        .orderByChild("slug")
+      const name = req.query.name;
+      if (!name) {
+        return res.json({ error: "Missing parameter 'name'!" });
+      } else if (name.length > 25) {
+        return res.json({
+          error: "Parameter 'name' only allows 25 characters!"
+        });
+      }
+      db.ref("/groups")
+        .orderByKey()
         .equalTo(slug)
         .limitToFirst(1)
         .once("value", function(snapshot) {
           if (snapshot.exists()) {
             return res.json({ error: "Slug already in use!" });
           } else {
-            admin
-              .database()
-              .ref("/groups")
-              .push({ slug: slug, createdAt: t });
+            db.ref("/groups")
+              .child(slug)
+              .set({ name: name, createdAt: t });
 
             return res.json({ slug: slug });
           }
@@ -51,11 +57,10 @@ exports.newgroup = functions.https.onRequest((req, res) => {
 exports.getgroup = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     if (req.method === "GET") {
-      admin
-        .database()
-        .ref("/groups")
-        .orderByChild("slug")
-        .equalTo(req.query.slug)
+      const slug = req.query.slug;
+      db.ref("/groups")
+        .orderByKey()
+        .equalTo(slug)
         .limitToFirst(1)
         .once("value", function(snapshot) {
           if (snapshot.exists()) {

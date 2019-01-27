@@ -4,7 +4,7 @@ import { getRequest } from "../utils/requests";
 class Group extends Component {
   constructor(props) {
     super(props);
-    this.state = { slug: props.match.params.slug, id: "" };
+    this.state = { slug: props.match.params.slug, group: {} };
   }
 
   componentDidMount = async () => {
@@ -14,12 +14,12 @@ class Group extends Component {
     if (req.error) {
       alert(req.error);
     } else {
-      this.setState({ id: Object.keys(req)[0] });
+      this.setState({ group: req[this.state.slug] });
     }
   };
 
   render() {
-    return <div>{this.state.id}</div>;
+    return <div>{this.state.group.name}</div>;
   }
 }
 

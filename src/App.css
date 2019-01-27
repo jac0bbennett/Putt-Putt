@@ -41,3 +41,55 @@ a {
   color: #2485c5;
   text-decoration: underline;
 }
+
+.geninpdiv {
+  position: relative;
+  height: 60px;
+}
+
+.gentxtinp:focus ~ .floating-label,
+.gentxtinp:not(:focus):valid ~ .floating-label,
+.gentxtinp:disabled ~ .floating-label {
+  top: 2px;
+  left: 0px;
+  font-size: 12px;
+  opacity: 1;
+  color: #3c81c8;
+}
+
+.gentxtinp:disabled {
+  background: #fff;
+  color: gray;
+  border-bottom-color: gray;
+  cursor: not-allowed;
+}
+
+.gentxtinp:disabled ~ .floating-label {
+  color: gray;
+}
+
+.gentxtinp {
+  margin-top: 12px;
+  font-size: 14pt;
+  width: 300px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #000;
+}
+
+.gentxtinp:focus {
+  border-bottom: 2px solid #3c81c8;
+}
+
+.gentxtinp:not(:focus):valid ~ .floating-label {
+  color: #000;
+}
+
+.floating-label {
+  position: absolute;
+  pointer-events: none;
+  left: 10px;
+  top: 25px;
+  transition: 200ms ease;
+}
