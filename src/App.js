@@ -54,7 +54,7 @@ class App extends Component {
                 marginTop: "15%"
               }}
             >
-              <h1>Putt Putt Score Tracking</h1>
+              <h1 style={{ textAlign: "center" }}>Putt Putt Score Tracking</h1>
               <form
                 onSubmit={this.handleCreateGroup}
                 style={{
