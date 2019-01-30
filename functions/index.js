@@ -74,3 +74,48 @@ exports.getgroup = functions.https.onRequest((req, res) => {
     }
   });
 });
+
+exports.newparticipant = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+    if (req.method === "POST") {
+      const slug = req.query.slug;
+      const name = req.query.name;
+      if (!name) {
+        return res.json({ error: "Missing parameter 'name'!" });
+      } else if (name.length > 25) {
+        return res.json({
+          error: "Parameter 'name' only allows 25 characters!"
+        });
+      } else if (!slug) {
+        return res.json({ error: "Missing parameter 'slug'!" });
+      }
+      db.ref("/groups")
+        .orderByKey()
+        .equalTo(slug)
+        .limitToFirst(1)
+        .once("value", function(snapshot) {
+          if (snapshot.exists()) {
+            let parts = [];
+            if (snapshot.val()[slug].participants) {
+              parts = snapshot.val()[slug].participants;
+            }
+
+            parts.push(name);
+
+            db.ref("/groups/" + slug)
+              .child("participants")
+              .set(parts);
+
+            return res.json({
+              participants: parts
+            });
+          } else {
+            return res.json({ error: "Group slug is invalid!" });
+          }
+        });
+    } else {
+      res.statusCode = 405;
+      return res.json({ error: "Method not allowed!" });
+    }
+  });
+});

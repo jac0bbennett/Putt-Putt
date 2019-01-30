@@ -3,6 +3,8 @@ import { Switch, Route } from "react-router-dom";
 import { postRequest } from "./utils/requests";
 import Group from "./components/group";
 import TextInput from "./components/txtInput";
+import Modal from "./components/Modal/modal";
+import Cloak from "./components/Modal/cloak";
 
 class App extends Component {
   state = {
@@ -10,14 +12,18 @@ class App extends Component {
     msg: "",
     status: "idle",
     apiBaseUrl: "https://us-central1-putt-putt-1c908.cloudfunctions.net/",
-    createdUrl: ""
+    createdUrl: "",
+    showModal: false,
+    modalComp: null,
+    modalData: {},
+    refreshView: null
   };
 
   handleCreateGroup = async event => {
     event.preventDefault();
 
     if (this.state.status !== "active") {
-      this.setState({ msg: "creating...", status: "active" });
+      this.setState({ msg: <div className="loadingicon" />, status: "active" });
       const req = await postRequest(
         this.state.apiBaseUrl + "newgroup?name=" + this.state.name
       );
@@ -37,7 +43,23 @@ class App extends Component {
     this.setState({ name: event.target.value });
   };
 
+  handleShowModal = (
+    comp = this.state.modalComp,
+    data = this.state.modalData,
+    reset = false
+  ) => {
+    if (reset) {
+      this.setState({ modalComp: "none" });
+    }
+    this.setState({ showModal: true, modalComp: comp, modalData: data });
+  };
+
+  handleCloseModal = (refreshView = this.state.refreshView) => {
+    this.setState({ showModal: false, refreshView });
+  };
+
   render() {
+    console.log(this.state.refreshView);
     return (
       <Switch>
         <Route
@@ -51,36 +73,56 @@ class App extends Component {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: "15%"
+                marginTop: "13%"
               }}
             >
-              <h1 style={{ textAlign: "center" }}>Putt Putt Score Tracking</h1>
-              <form
-                onSubmit={this.handleCreateGroup}
+              <div
+                className="gencontainer"
                 style={{
-                  width: "100%",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "center"
+                  justifyContent: "center",
+                  width: "500px",
+                  paddingTop: "50px"
                 }}
               >
-                <TextInput
-                  onChange={e => this.handleNameChange(e)}
-                  type="text"
-                  name="name"
-                  label="Name"
-                  autoComplete="off"
-                  required={true}
-                  value={this.state.name}
-                />
+                <h1 style={{ textAlign: "center" }}>
+                  Putt Putt Score Tracking
+                </h1>
+                <form
+                  onSubmit={this.handleCreateGroup}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <TextInput
+                    onChange={e => this.handleNameChange(e)}
+                    type="text"
+                    name="name"
+                    label="Name"
+                    autoComplete="off"
+                    required={true}
+                    value={this.state.name}
+                  />
+                  <br />
+                  <button
+                    type="submit"
+                    className="raisedbut"
+                    style={{ height: "40px" }}
+                  >
+                    Create Group
+                  </button>
+                </form>
                 <br />
-                <button type="submit">Create Group</button>
-              </form>
-              <br />
-              <span>{this.state.msg}</span>
-              <br />
-              <a href={this.state.createdUrl}>{this.state.createdUrl}</a>
+                <span>{this.state.msg}</span>
+                <br />
+                <a href={this.state.createdUrl}>{this.state.createdUrl}</a>
+              </div>
             </div>
           )}
         />
@@ -88,7 +130,33 @@ class App extends Component {
           exact
           path="/:slug"
           render={props => (
-            <Group {...props} apiBaseUrl={this.state.apiBaseUrl} />
+            <React.Fragment>
+              <div
+                id="overlay"
+                className={this.state.showModal ? "is-show" : ""}
+              >
+                <Cloak
+                  isShow={this.state.showModal}
+                  handleCloseModal={this.handleCloseModal}
+                />
+                <Modal
+                  slug={props.match.params.slug}
+                  isShow={this.state.showModal}
+                  modalComp={this.state.modalComp}
+                  modalData={this.state.modalData}
+                  handleCloseModal={this.handleCloseModal}
+                  apiBaseUrl={this.state.apiBaseUrl}
+                  inner={this.state.modalComp}
+                />
+              </div>
+              <Group
+                {...props}
+                apiBaseUrl={this.state.apiBaseUrl}
+                handleCloseModal={this.handleCloseModal}
+                handleShowModal={this.handleShowModal}
+                refreshView={this.state.refreshView}
+              />
+            </React.Fragment>
           )}
         />
       </Switch>
