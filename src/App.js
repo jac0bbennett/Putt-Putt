@@ -16,7 +16,7 @@ class App extends Component {
     showModal: false,
     modalComp: null,
     modalData: {},
-    refreshView: null
+    reloadGroup: false
   };
 
   handleCreateGroup = async event => {
@@ -54,12 +54,15 @@ class App extends Component {
     this.setState({ showModal: true, modalComp: comp, modalData: data });
   };
 
-  handleCloseModal = (refreshView = this.state.refreshView) => {
-    this.setState({ showModal: false, refreshView });
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  handleReloadGroup = (bool = false) => {
+    this.setState({ reloadGroup: bool });
   };
 
   render() {
-    console.log(this.state.refreshView);
     return (
       <Switch>
         <Route
@@ -76,17 +79,7 @@ class App extends Component {
                 marginTop: "13%"
               }}
             >
-              <div
-                className="gencontainer"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "500px",
-                  paddingTop: "50px"
-                }}
-              >
+              <div className="gencontainer newgroupcont">
                 <h1 style={{ textAlign: "center" }}>
                   Putt Putt Score Tracking
                 </h1>
@@ -147,6 +140,7 @@ class App extends Component {
                   handleCloseModal={this.handleCloseModal}
                   apiBaseUrl={this.state.apiBaseUrl}
                   inner={this.state.modalComp}
+                  reloadGroup={this.handleReloadGroup}
                 />
               </div>
               <Group
@@ -154,7 +148,8 @@ class App extends Component {
                 apiBaseUrl={this.state.apiBaseUrl}
                 handleCloseModal={this.handleCloseModal}
                 handleShowModal={this.handleShowModal}
-                refreshView={this.state.refreshView}
+                shouldReloadGroup={this.state.reloadGroup}
+                reloadGroup={this.handleReloadGroup}
               />
             </React.Fragment>
           )}

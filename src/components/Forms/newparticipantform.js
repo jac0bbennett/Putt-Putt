@@ -20,7 +20,7 @@ class NewParticipantForm extends Component {
 
     const req = await postRequest(
       this.props.apiBaseUrl +
-        "/newparticipant?slug=" +
+        "newparticipant?slug=" +
         this.props.slug +
         "&name=" +
         name
@@ -31,7 +31,8 @@ class NewParticipantForm extends Component {
       this.setState({ msg });
     } else {
       this.setState({ msg: "", form: { name: "" } });
-      this.props.handleCloseModal("participants");
+      this.props.handleCloseModal();
+      this.props.reloadGroup(true);
     }
   };
 

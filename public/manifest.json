@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Putt Putt",
+  "name": "Putt Putt Score Tracker",
   "icons": [
     {
       "src": "favicon.ico",

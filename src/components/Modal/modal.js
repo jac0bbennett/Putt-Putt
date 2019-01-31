@@ -1,10 +1,13 @@
 import React from "react";
 import NewParticipantForm from "../Forms/newparticipantform";
+import NewResultForm from "../Forms/newresultform";
 
 const Content = props => {
   switch (props.modalComp) {
     case "newparticipantform":
       return <NewParticipantForm {...props} />;
+    case "newresultform":
+      return <NewResultForm {...props} />;
     default:
       return <h2>Form</h2>;
   }
