@@ -67,33 +67,39 @@ class NewResultForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} autoComplete="off">
-        <h2>New Result</h2>
-        <span style={{ fontSize: "10pt" }}>
-          Leave blank if not participating!
-        </span>
+      <React.Fragment>
+        {this.state.participants.length > 0 ? (
+          <form onSubmit={this.handleSubmit} autoComplete="off">
+            <h2>New Result</h2>
+            <span style={{ fontSize: "10pt" }}>
+              Leave blank if not participating!
+            </span>
 
-        {this.state.participants.map((part, index) => (
-          <React.Fragment key={index}>
-            <TextInput
-              name="name"
-              type="text"
-              label={part}
-              value={this.state.form[index]}
-              onChange={e => this.handleChange(e, index)}
-              required={false}
-            />
+            {this.state.participants.map((part, index) => (
+              <React.Fragment key={index}>
+                <TextInput
+                  name="name"
+                  type="text"
+                  label={part}
+                  value={this.state.form[index]}
+                  onChange={e => this.handleChange(e, index)}
+                  required={false}
+                />
+                <br />
+              </React.Fragment>
+            ))}
             <br />
-          </React.Fragment>
-        ))}
-        <br />
-        <br />
-        <SubmitButton>Submit</SubmitButton>
-        <br />
-        <span>{this.state.msg}</span>
-        <br />
-        <br />
-      </form>
+            <br />
+            <SubmitButton>Submit</SubmitButton>
+            <br />
+            <span>{this.state.msg}</span>
+            <br />
+            <br />
+          </form>
+        ) : (
+          <h3>Add a participant first!</h3>
+        )}
+      </React.Fragment>
     );
   }
 }

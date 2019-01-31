@@ -8,7 +8,7 @@ class Group extends Component {
     super(props);
     this.state = {
       slug: props.match.params.slug,
-      group: { participants: [], results: [] },
+      group: { results: [], participants: [] },
       isLoaded: false
     };
   }
@@ -31,9 +31,16 @@ class Group extends Component {
     if (req.error) {
       alert(req.error);
     } else {
-      this.setState({ group: req[this.state.slug], isLoaded: true });
+      let group = { ...req[this.state.slug] };
+      if (!group.participants) {
+        group.participants = [];
+      }
+      if (!group.results) {
+        group.results = [];
+      }
+      this.setState({ group: group, isLoaded: true });
+
       document.title = this.state.group.name + " | Putt Putt";
-      this.setState({ isLoaded: true });
     }
   };
 
