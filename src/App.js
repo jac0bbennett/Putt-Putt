@@ -31,7 +31,7 @@ class App extends Component {
         const msg = req.error;
         this.setState({ msg });
       } else {
-        const url = "http://localhost:3000/" + req.slug;
+        const url = "https://putt.jwb.cloud/" + req.slug;
         const msg = "Save this URL:";
         this.setState({ msg: msg, createdUrl: url });
       }

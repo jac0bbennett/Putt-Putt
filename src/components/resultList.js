@@ -1,59 +1,55 @@
-import React, { Component } from "react";
+import React from "react";
+import ResultItem from "./resultItem";
 
-class ResultList extends Component {
-  handleGetWinner = result => {
-    let highIndex = 0;
-    let highScore = "";
-    for (let i = 0; i < result.scores.length; i++) {
-      if (result.scores[i] > highScore) {
-        highIndex = i;
-        highScore = result.scores[i];
-      }
-    }
-
-    return this.props.participants[highIndex] + " with " + highScore;
-  };
-
-  render() {
-    return (
-      <div className="gencontainer resultlist">
-        {this.props.isLoaded ? (
-          <button
-            className="flatbut floatright"
-            style={{ marginTop: "20px" }}
-            onClick={() =>
-              this.props.handleShowModal("newresultform", {
-                participants: this.props.participants
-              })
-            }
-          >
-            <i className="material-icons" style={{ fontSize: "12pt" }}>
-              add
-            </i>
-            <span className="icolab">New</span>
-          </button>
-        ) : null}
-        <h1>Results</h1>
-
-        {this.props.results.length > 0 ? (
-          this.props.results
+const ResultList = props => {
+  return (
+    <div className="gencontainer resultlist" style={{ paddingBottom: "0" }}>
+      {props.isLoaded ? (
+        <button
+          className="flatbut floatright"
+          style={{ marginTop: "20px" }}
+          onClick={() =>
+            props.handleShowModal("newresultform", {
+              participants: props.participants
+            })
+          }
+        >
+          <i className="material-icons" style={{ fontSize: "12pt" }}>
+            add
+          </i>
+          <span className="icolab">New</span>
+        </button>
+      ) : null}
+      <h1>Results</h1>
+      {props.results.length > 0 ? (
+        <React.Fragment>
+          <div className="spaced-header">
+            <h2>Winner</h2>
+            <h2>#</h2>
+            <h2>When</h2>
+          </div>
+          {props.results
             .slice(0)
             .reverse()
             .map((result, index) => (
-              <h3 key={index}>Winner: {this.handleGetWinner(result)}</h3>
-            ))
-        ) : this.props.isLoaded ? (
-          <center>
-            <h3>None yet.</h3>
-          </center>
-        ) : (
-          <center>
-            <div className="loadingicon" />
-          </center>
-        )}
-      </div>
-    );
-  }
-}
+              <ResultItem
+                key={index}
+                result={result}
+                participants={props.participants}
+              />
+            ))}
+        </React.Fragment>
+      ) : props.isLoaded ? (
+        <center>
+          <h3>None yet.</h3>
+        </center>
+      ) : (
+        <center>
+          <div className="loadingicon" style={{ marginBottom: "20px" }} />
+        </center>
+      )}
+    </div>
+  );
+};
 
 export default ResultList;

@@ -79,7 +79,7 @@ class NewResultForm extends Component {
               <React.Fragment key={index}>
                 <TextInput
                   name="name"
-                  type="text"
+                  type="number"
                   label={part}
                   value={this.state.form[index]}
                   onChange={e => this.handleChange(e, index)}
