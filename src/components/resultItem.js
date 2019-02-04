@@ -8,7 +8,9 @@ const ResultItem = props => {
       <h3 style={{ width: "175px" }}>
         {winner.name} with {winner.score}
       </h3>
-      <h3 style={{ width: "20px" }}>{props.participants.length}</h3>
+      <h3 style={{ width: "20px" }}>
+        {getActualParticipantCount(props.result)}
+      </h3>
       <span className="timestamp">{ago(new Date(props.result.createdAt))}</span>
     </div>
   );
@@ -25,6 +27,17 @@ const handleGetWinner = (result, participants) => {
   }
 
   return { name: participants[highIndex], score: highScore, index: highIndex };
+};
+
+const getActualParticipantCount = result => {
+  let count = 0;
+  for (let i = 0; i < result.scores.length; i++) {
+    if (result.scores[i] !== "") {
+      count += 1;
+    }
+  }
+
+  return count;
 };
 
 export default ResultItem;
