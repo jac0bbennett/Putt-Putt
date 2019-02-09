@@ -24,8 +24,10 @@ const ParticipantList = props => {
       {props.participants.length > 0 ? (
         props.participants.map((part, index) => (
           <h3 key={index}>
-            <b>{getWinCount(props.results, props.participants, index)}</b>{" "}
             {part}
+            <b style={{ float: "right" }}>
+              {getWinRate(props.results, props.participants, index).formatted}
+            </b>
           </h3>
         ))
       ) : props.isLoaded ? (
@@ -41,16 +43,24 @@ const ParticipantList = props => {
   );
 };
 
-const getWinCount = (results, participants, index) => {
+const getWinRate = (results, participants, index) => {
+  let gameCount = 0;
   let winCount = 0;
   for (let i = 0; i < results.length; i++) {
     const winner = handleGetWinner(results[i], participants);
     if (winner.index === index) {
       winCount++;
     }
+    if (results[i].scores[index] !== "") {
+      gameCount++;
+    }
   }
 
-  return winCount;
+  const winRate = Math.round((winCount / gameCount) * 100);
+
+  const formatted = winCount + "/" + gameCount + " (" + winRate + "%)";
+
+  return { winCount: winCount, totalGames: gameCount, formatted: formatted };
 };
 
 export default ParticipantList;

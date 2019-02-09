@@ -82,7 +82,10 @@ h3 {
   align-items: center;
   justify-content: space-between;
   height: 50px;
-  margin-bottom: 15px;
+}
+
+b {
+  font-weight: 400;
 }
 
 .item {
