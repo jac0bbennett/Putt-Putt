@@ -51,12 +51,16 @@ const getWinRate = (results, participants, index) => {
     if (winner.index === index) {
       winCount++;
     }
-    if (results[i].scores[index] !== "") {
+
+    if (
+      results[i].scores[index] !== undefined &&
+      results[i].scores[index] !== ""
+    ) {
       gameCount++;
     }
   }
 
-  const winRate = Math.round((winCount / gameCount) * 100);
+  const winRate = Math.round((winCount / gameCount) * 100) || 0;
 
   const formatted = winCount + "/" + gameCount + " (" + winRate + "%)";
 
