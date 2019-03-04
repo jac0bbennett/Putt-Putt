@@ -45,12 +45,8 @@ class App extends Component {
 
   handleShowModal = (
     comp = this.state.modalComp,
-    data = this.state.modalData,
-    reset = false
+    data = this.state.modalData
   ) => {
-    if (reset) {
-      this.setState({ modalComp: "none" });
-    }
     this.setState({ showModal: true, modalComp: comp, modalData: data });
   };
 

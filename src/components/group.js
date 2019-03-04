@@ -50,15 +50,14 @@ class Group extends Component {
         <h2 style={{ textAlign: "center", width: "100%", color: "#43a047" }}>
           {this.state.group.name}
         </h2>
-
-        <ResultList
+        <ParticipantList
           handleCloseModal={this.props.handleCloseModal}
           handleShowModal={this.props.handleShowModal}
           participants={this.state.group.participants}
           results={this.state.group.results}
           isLoaded={this.state.isLoaded}
         />
-        <ParticipantList
+        <ResultList
           handleCloseModal={this.props.handleCloseModal}
           handleShowModal={this.props.handleShowModal}
           participants={this.state.group.participants}

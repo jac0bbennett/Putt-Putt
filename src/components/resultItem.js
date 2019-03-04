@@ -4,14 +4,16 @@ import ago from "s-ago";
 const ResultItem = props => {
   const winner = handleGetWinner(props.result, props.participants);
   return (
-    <div className="item">
+    <div className="item" onClick={props.expand}>
       <h3 style={{ width: "175px" }}>
         {winner.name} with {winner.score}
       </h3>
       <h3 style={{ width: "20px" }}>
         {getActualParticipantCount(props.result)}
       </h3>
-      <span className="timestamp">{ago(new Date(props.result.createdAt))}</span>
+      <span className="timestamp" title={new Date(props.result.createdAt)}>
+        {ago(new Date(props.result.createdAt))}
+      </span>
     </div>
   );
 };

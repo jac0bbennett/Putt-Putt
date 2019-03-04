@@ -1,6 +1,7 @@
 import React from "react";
 import NewParticipantForm from "../Forms/newparticipantform";
 import NewResultForm from "../Forms/newresultform";
+import FullResult from "../fullResult";
 
 const Content = props => {
   switch (props.modalComp) {
@@ -8,6 +9,8 @@ const Content = props => {
       return <NewParticipantForm {...props} />;
     case "newresultform":
       return <NewResultForm {...props} />;
+    case "fullresult":
+      return <FullResult {...props} />;
     default:
       return <h2>Form</h2>;
   }

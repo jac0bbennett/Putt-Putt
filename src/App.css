@@ -112,6 +112,7 @@ b {
   color: #a0a0a0;
   width: 150px;
   text-align: right;
+  cursor: default;
 }
 
 .raisedbut {

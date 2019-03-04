@@ -36,6 +36,17 @@ const ResultList = props => {
                 key={index}
                 result={result}
                 participants={props.participants}
+                expand={() =>
+                  props.handleShowModal(
+                    "fullresult",
+                    {
+                      result: result,
+                      participants: props.participants,
+                      reset: true
+                    },
+                    true
+                  )
+                }
               />
             ))}
         </React.Fragment>
