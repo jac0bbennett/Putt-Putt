@@ -26,10 +26,6 @@ const handleGetWinner = (result, participants) => {
   let highIndex = 0;
   let highScore = "";
 
-  if (result === null) {
-    return { name: "", score: -1, index: -1 };
-  }
-
   for (let i = 0; i < result.scores.length; i++) {
     if (result.scores[i] > highScore) {
       highIndex = i;
@@ -42,10 +38,6 @@ const handleGetWinner = (result, participants) => {
 
 const getActualParticipantCount = result => {
   let count = 0;
-
-  if (result === null) {
-    return -1;
-  }
 
   for (let i = 0; i < result.scores.length; i++) {
     if (result.scores[i] !== "") {
