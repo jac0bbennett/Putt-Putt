@@ -2,25 +2,34 @@ import React from "react";
 import ago from "s-ago";
 
 const ResultItem = props => {
-  const winner = handleGetWinner(props.result, props.participants);
-  return (
-    <div className="item" onClick={props.expand}>
-      <h3 style={{ width: "175px" }}>
-        {winner.name} with {winner.score}
-      </h3>
-      <h3 style={{ width: "20px" }}>
-        {getActualParticipantCount(props.result)}
-      </h3>
-      <span className="timestamp" title={new Date(props.result.createdAt)}>
-        {ago(new Date(props.result.createdAt))}
-      </span>
-    </div>
-  );
+  if (props.result !== null) {
+    const winner = handleGetWinner(props.result, props.participants);
+    return (
+      <div className="item" onClick={props.expand}>
+        <h3 style={{ width: "175px" }}>
+          {winner.name} with {winner.score}
+        </h3>
+        <h3 style={{ width: "20px" }}>
+          {getActualParticipantCount(props.result)}
+        </h3>
+        <span className="timestamp" title={new Date(props.result.createdAt)}>
+          {ago(new Date(props.result.createdAt))}
+        </span>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 const handleGetWinner = (result, participants) => {
   let highIndex = 0;
   let highScore = "";
+
+  if (result === null) {
+    return { name: "", score: -1, index: -1 };
+  }
+
   for (let i = 0; i < result.scores.length; i++) {
     if (result.scores[i] > highScore) {
       highIndex = i;
@@ -33,6 +42,11 @@ const handleGetWinner = (result, participants) => {
 
 const getActualParticipantCount = result => {
   let count = 0;
+
+  if (result === null) {
+    return -1;
+  }
+
   for (let i = 0; i < result.scores.length; i++) {
     if (result.scores[i] !== "") {
       count += 1;

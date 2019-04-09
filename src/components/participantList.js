@@ -47,16 +47,18 @@ const getWinRate = (results, participants, index) => {
   let gameCount = 0;
   let winCount = 0;
   for (let i = 0; i < results.length; i++) {
-    const winner = handleGetWinner(results[i], participants);
-    if (winner.index === index) {
-      winCount++;
-    }
+    if (results[i] !== null) {
+      const winner = handleGetWinner(results[i], participants);
+      if (winner.index === index) {
+        winCount++;
+      }
 
-    if (
-      results[i].scores[index] !== undefined &&
-      results[i].scores[index] !== ""
-    ) {
-      gameCount++;
+      if (
+        results[i].scores[index] !== undefined &&
+        results[i].scores[index] !== ""
+      ) {
+        gameCount++;
+      }
     }
   }
 

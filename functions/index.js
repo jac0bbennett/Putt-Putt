@@ -172,3 +172,41 @@ exports.newresult = functions.https.onRequest((req, res) => {
     }
   });
 });
+
+exports.deleteresult = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+    if (req.method === "DELETE") {
+      const slug = req.query.slug;
+      const timestamp = req.query.timestamp;
+      if (!slug) {
+        return res.json({ error: "Missing parameter 'slug'!" });
+      }
+      db.ref("/groups")
+        .orderByKey()
+        .equalTo(slug)
+        .limitToFirst(1)
+        .once("value", function(snapshot) {
+          if (snapshot.exists()) {
+            let results = [];
+            if (snapshot.val()[slug].results) {
+              results = snapshot.val()[slug].results;
+            }
+
+            results = results.filter(function(obj) {
+              return obj.createdAt.toString() !== timestamp;
+            });
+
+            db.ref("/groups/" + slug)
+              .child("results")
+              .set(results);
+            return res.json({ results: results });
+          } else {
+            return res.json({ error: "Group slug is invalid!" });
+          }
+        });
+    } else {
+      res.statusCode = 405;
+      return res.json({ error: "Method not allowed!" });
+    }
+  });
+});

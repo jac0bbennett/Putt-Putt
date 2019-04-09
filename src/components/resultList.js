@@ -42,6 +42,7 @@ const ResultList = props => {
                     {
                       result: result,
                       participants: props.participants,
+                      i: index,
                       reset: true
                     },
                     true
