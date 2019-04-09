@@ -140,6 +140,18 @@ exports.newresult = functions.https.onRequest((req, res) => {
       } else if (!slug) {
         return res.json({ error: "Missing parameter 'slug'!" });
       }
+
+      let emptycount = 0;
+
+      for (let i = 0; i < reqResult.length; i++) {
+        if (reqResult[i] === "") {
+          emptycount++;
+        }
+      }
+      if (emptycount === reqResult.length) {
+        return res.json({ error: "Result needs at least 1 score!" });
+      }
+
       db.ref("/groups")
         .orderByKey()
         .equalTo(slug)
