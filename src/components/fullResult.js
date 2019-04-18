@@ -23,7 +23,7 @@ class FullResult extends Component {
     } else {
       this.props.handleCloseModal();
       this.props.reloadGroup(true);
-      this.setState({ msg: "Deleted!" });
+      this.setState({ msg: "" });
     }
   };
 
